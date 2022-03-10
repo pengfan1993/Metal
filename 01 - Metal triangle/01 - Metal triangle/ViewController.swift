@@ -8,6 +8,12 @@
 import UIKit
 import QuartzCore
 import Metal
+import MetalKit
+import simd
+
+struct Uniforms {
+    let normal: matrix_float4x4
+}
 
 class ViewController: UIViewController {
 
@@ -54,7 +60,6 @@ class ViewController: UIViewController {
         
         pipelineStateDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
         
-        
         //创建管道状态对象
         do {
             try pipelineState = device?.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
@@ -71,6 +76,7 @@ class ViewController: UIViewController {
         guard let drawable = metalLayer.nextDrawable() else {
             return
         }
+        
         
         renderPassDescriptor.colorAttachments[0].texture = drawable.texture
         renderPassDescriptor.colorAttachments[0].loadAction = .clear
